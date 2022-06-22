@@ -6,3 +6,7 @@ App = Flask(__name__)
 @App.route("/index")
 def index():
     return render_template("index.html")
+
+@App.route("/info")
+def info():
+    return "just an info page"
