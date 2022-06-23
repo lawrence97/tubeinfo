@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>info</title>
-    </head>
-    <body>
-        <h1>tube info page</h1>
-    </body>
-</html>
+{% extends 'layout.html' %}
+
+{% block content %}
+    <h1>Index page, use site</h1>
+    <p>You can find content on site</p>
+    <form action="/ask", method="POST">
+        <p>Enter Line --> <input type="text" name="Line"></p>
+        <p><input type="submit" name="submit"></p>
+    </form>
+{% endblock %}

@@ -1,12 +1,22 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, make_response, request
+import requests
 
-App = Flask(__name__)
+app = Flask(__name__)
 
-@App.route("/")
-@App.route("/index")
+@app.route("/", methods=["GET"])
 def index():
-    return render_template("index.html")
+    return render_template("index.html", title="Home Info")
 
-@App.route("/info")
+@app.route("/ask", methods=["POST"])
 def info():
-    return "just an info page"
+    resp = requests.get("https://api.tfl.gov.uk/Line/" + request.form["Line"] + "/Status")
+    jresp = (resp.json())
+    name = jresp[0]["name"]
+    status = jresp[0]["lineStatuses"][0]["statusSeverityDescription"]
+    reason = jresp[0]["lineStatuses"][0]["reason"]
+    headers = {"Content-Type": "text/html"}
+    return make_response(name + " - " + status + " - " + reason , 200, headers)
+
+
+if __name__ == "__main__":
+    app.run()
